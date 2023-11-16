@@ -1,7 +1,12 @@
+using Pokemon.Models;
+using Pokemon.Models.Repository;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton(new Conexion(builder.Configuration.GetConnectionString("ConexionPokemon")));
+builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
 
 var app = builder.Build();
 
@@ -23,5 +28,9 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=PokemonList}/{action=Index}/{id?}");
 
 app.Run();
