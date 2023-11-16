@@ -31,6 +31,6 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=PokemonList}/{action=Index}/{id?}");
+    pattern: "{controller=Pokemon}/{action=Index}/{id?}");
 
 app.Run();
