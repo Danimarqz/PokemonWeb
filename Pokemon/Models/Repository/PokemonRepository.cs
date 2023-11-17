@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.AspNetCore.Mvc;
 using Pokemon.Models;
 
 namespace Pokemon.Models.Repository
@@ -28,6 +29,16 @@ namespace Pokemon.Models.Repository
             {
                 var pokemon = await connection.QuerySingleOrDefaultAsync<pokemon>(query, new { id });
                 return pokemon;
+            }
+        }
+        [HttpGet]
+        public async Task<IEnumerable<pokemon>> GetRandom(int count)
+        {
+            var query = $"SELECT TOP {count} * FROM pokemon ORDER BY NEWID()";
+            using (var connection = _conexion.ObtenerConexion())
+            {
+                var randomPokemons = await connection.QueryAsync<pokemon>(query);
+                return randomPokemons.ToList();
             }
         }
     }
