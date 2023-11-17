@@ -6,9 +6,6 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -17,12 +14,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.peso)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.altura)
             </th>
             <th></th>
         </tr>
@@ -37,15 +28,9 @@
                 @Html.DisplayFor(modelItem => item.nombre)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.peso)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.altura)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { codigo = item.numero_pokedex }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Detalles", "GetById", new { codigo = item.numero_pokedex })
+            </td>            <td>
+                Añadir a mi equipo
             </td>
         </tr>
 }
