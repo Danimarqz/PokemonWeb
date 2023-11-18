@@ -1,4 +1,4 @@
-﻿@model Pokemon.Models.pokemon
+﻿@model List<pokemon>
 
 @{
     ViewData["Title"] = "Index";
@@ -32,8 +32,7 @@
                     #todo
                 </td>
                 <td>
-                @{
-                 }
+                @ViewBag.MedianaPeso
                 </td>
                 <td>
                     Añadir a mi equipo
