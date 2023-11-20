@@ -17,9 +17,12 @@ namespace Pokemon.Controllers
         {
             var randomPokemons = await _pokemonRepository.GetRandom(6);
             IEnumerable<float> pesos = randomPokemons.Select(p => p.peso);
-            float mediana = pesos.Any() ? Statistics.Median(pesos) : 0;
+            float pesoMedio = pesos.Any() ? Statistics.Median(pesos) : 0;
+            IEnumerable<float> alturas = randomPokemons.Select(p => p.altura);
+            float alturaMedia = alturas.Any() ? Statistics.Median(alturas) : 0;
 
-            ViewBag.MedianaPeso = mediana;
+            ViewBag.PesoMedio = pesoMedio;
+            ViewBag.AlturaMedia = alturaMedia;
             return View("Index", randomPokemons);
         }
     }

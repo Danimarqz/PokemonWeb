@@ -28,5 +28,6 @@ namespace Pokemon.Controllers
             var pokemon = await _pokemonRepository.GetPokemonById(codigo);
             return View("VerPokemon", pokemon);
         }
+
     }
 }
