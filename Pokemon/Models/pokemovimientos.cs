@@ -2,7 +2,7 @@
 {
     public class pokemovimientos
     {
-        public pokemon Pokemons { get; set; }
+        public Pokemon Pokemons { get; set; }
         public IEnumerable<movimiento> Movimientos { get; set; }
     }
 }

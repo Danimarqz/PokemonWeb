@@ -5,8 +5,8 @@ namespace Pokemon.Models.Repository
 {
     public interface IPokemonRepository
     {
-        Task<IEnumerable<pokemon>> GetPokemons();
-        Task<pokemon> GetPokemonById(int? id);
-        Task<IEnumerable<pokemon>> GetRandom(int count);
+        Task<IEnumerable<Pokemon>> GetPokemons();
+        Task<Pokemon> GetPokemonById(int? id);
+        Task<IEnumerable<Pokemon>> GetRandom(int count);
     }
 }
