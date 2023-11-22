@@ -7,9 +7,11 @@ namespace Pokemon.Controllers
     public class PokemonController : Controller
     {
         private readonly IPokemonRepository _pokemonRepository;
-        public PokemonController(IPokemonRepository pokemonRepository) 
+        private readonly IMovimientoRepository _movimientoRepository;
+        public PokemonController(IPokemonRepository pokemonRepository, IMovimientoRepository movimientoRepository)
         {
-           _pokemonRepository = pokemonRepository;
+            _pokemonRepository = pokemonRepository;
+            _movimientoRepository = movimientoRepository;
         }
         public async Task<IActionResult> Index()
         {
@@ -28,6 +30,16 @@ namespace Pokemon.Controllers
             var pokemon = await _pokemonRepository.GetPokemonById(codigo);
             return View("VerPokemon", pokemon);
         }
-
+        [HttpGet]
+        public async Task<IActionResult> GetDetail(int codigo)
+        {
+            var pokemon = await _pokemonRepository.GetPokemonById(codigo);
+            var movimientos = await _movimientoRepository.GetMovimientos(codigo);
+            pokemovimientos suma = new pokemovimientos();
+            suma.Pokemons = pokemon;
+            suma.Movimientos = movimientos;
+            return View("VerPokemon", suma);
+        }
+    
     }
 }

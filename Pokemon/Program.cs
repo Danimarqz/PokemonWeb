@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton(new Conexion(builder.Configuration.GetConnectionString("ConexionPokemon")));
 builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
+builder.Services.AddScoped<IMovimientoRepository, MovimientoRepository>();
 
 var app = builder.Build();
 
