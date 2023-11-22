@@ -44,7 +44,7 @@ namespace Pokemon.Models.Repository
         [HttpGet]
         public async Task<movimiento> GetMovimiento(int id)
         {
-            var query = "SELECT * FROM movimiento m JOIN pokemon_movimiento_forma pmf ON pmf.id_movimiento = m.id_movimiento JOIN pokemon p ON pmf.numero_pokedex = p.numero_pokedex WHERE p.id = @id";
+            var query = $"SELECT * FROM movimiento m JOIN pokemon_movimiento_forma pmf ON pmf.id_movimiento = m.id_movimiento JOIN pokemon p ON pmf.numero_pokedex = p.numero_pokedex WHERE p.id = {id}";
             using (var connection = _conexion.ObtenerConexion())
             {
                 var movimiento = await connection.QuerySingleOrDefaultAsync<movimiento>(query);
