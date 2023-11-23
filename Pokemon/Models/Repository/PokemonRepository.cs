@@ -1,5 +1,6 @@
 ﻿         using Dapper;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol.Plugins;
 using Pokemon.Models;
 
 namespace Pokemon.Models.Repository
@@ -15,7 +16,7 @@ namespace Pokemon.Models.Repository
 
         public async Task<IEnumerable<Pokemon>> GetPokemons()
         {
-            var query = "SELECT * FROM pokemon";
+            var query = "SELECT p.*, tipo = STUFF((SELECT ', ' + tipo.nombre FROM tipo tipo JOIN pokemon_tipo pt ON pt.id_tipo = tipo.id_tipo WHERE pt.numero_pokedex = p.numero_pokedex FOR XML PATH ('')), 1, 1, '') FROM pokemon p";
             using (var connection = _conexion.ObtenerConexion())
             {
                 var pokemons = await connection.QueryAsync<Pokemon>(query);
@@ -69,6 +70,16 @@ namespace Pokemon.Models.Repository
             {
                 var filteredPokemon = await connection.QueryAsync<Pokemon> (query);
                 return filteredPokemon.ToList();
+            }
+        }
+
+        public async Task<IEnumerable<Tipo>> GetTipos(int id)
+        {
+            var query = $"SELECT t.nombre FROM tipo t JOIN pokemon_tipo pt ON t.id_tipo = pt.id_tipo JOIN pokemon p ON pt.numero_pokedex = p.numero_pokedex WHERE p.numero_pokedex = {id}";
+            using (var connection = _conexion.ObtenerConexion())
+            {
+                var tipos = await connection.QueryAsync<Tipo>(query);
+                return tipos.ToList();
             }
         }
     }

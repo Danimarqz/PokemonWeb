@@ -54,6 +54,15 @@
                 @Html.DisplayFor(modelItem => item.nombre)
             </dd>
         }
+        <dt class="col-sm-2">
+            Tipos
+        </dt>
+        @foreach (var item in Model.tipos)
+        {
+            <dd class="col-sm-2">
+                @Html.DisplayFor(modelItem => item.nombre)
+            </dd>
+        }
     </dl>
 </div>
 <div>

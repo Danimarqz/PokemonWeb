@@ -9,5 +9,6 @@ namespace Pokemon.Models.Repository
         Task<Pokemon> GetPokemonById(int? id);
         Task<IEnumerable<Pokemon>> GetRandom(int count);
         Task<IEnumerable<Pokemon>> GetFilter(string filter, string direccion);
+        Task<IEnumerable<Tipo>> GetTipos(int id);
     }
 }

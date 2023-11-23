@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PokeMovimiento>;
+﻿@model IEnumerable<Pokemon>;
 
 @{
     ViewData["Title"] = "Index";
@@ -38,27 +38,25 @@
     <tbody>
         @foreach (var item in Model)
         {
+            Console.WriteLine(item.nombre);
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.pokemons.numero_pokedex)
+                    @Html.DisplayFor(modelItem => item.numero_pokedex)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.pokemons.nombre)
+                    @Html.DisplayFor(modelItem => item.nombre)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.pokemons.peso)
+                    @Html.DisplayFor(modelItem => item.peso)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.pokemons.altura)
+                    @Html.DisplayFor(modelItem => item.altura)
                 </td>
                 <td>
-                    @foreach (var tipo in item.tipos)
-                    {
-                        @Html.DisplayFor(modelItem => tipo.nombre)
-                    }
+                    @Html.DisplayFor(modelItem => item.tipo)
                 </td>
                 <td>
-                    @Html.ActionLink("Detalles", "GetDetail", new { codigo = item.pokemons.numero_pokedex })
+                    @Html.ActionLink("Detalles", "GetDetail", new { codigo = item.numero_pokedex })
                 </td>
                 <td>
                     Añadir a mi equipo
