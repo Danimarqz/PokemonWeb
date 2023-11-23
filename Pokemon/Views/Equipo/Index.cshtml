@@ -10,6 +10,67 @@
     <thead>
         <tr>
             <th>
+                Número pokedex
+            </th>
+            <th>
+                Nombre
+            </th>
+            <th>
+                <a href=@Url.Action("FilterBy", "Pokemon", new { filtro = "peso"})>
+                    Peso @(
+                    ViewBag.DireccionPeso == null ? "" : ViewBag.DireccionPeso == "DESC" ? "↓" : "↑")
+                </a>
+            </th>
+            <th>
+                <a href=@Url.Action("FilterBy", "Pokemon", new { filtro = "altura"})>
+                    Altura @(
+                    ViewBag.DireccionAlt == null ? "" : ViewBag.DireccionAlt == "DESC" ? "↓" : "↑")
+                </a>
+            </th>
+            <th>
+                <a href=@Url.Action("FilterByTipo", "Tipo", new { filtro = "tipo"})>
+                    Tipo @(
+                    ViewBag.DireccionAlt == null ? "" : ViewBag.DireccionAlt == "DESC" ? "↓" : "↑")
+                </a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            Console.WriteLine(item.nombre);
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.numero_pokedex)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.peso)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.altura)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tipo)
+                </td>
+                <td>
+                    @Html.ActionLink("Detalles", "GetDetail", new { codigo = item.numero_pokedex })
+                </td>
+                <td>
+                    Añadir a mi equipo
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
                 Cantidad de Pokémon
             </th>
             <th>

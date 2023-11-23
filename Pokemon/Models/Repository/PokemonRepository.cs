@@ -35,7 +35,7 @@ namespace Pokemon.Models.Repository
         [HttpGet]
         public async Task<IEnumerable<Pokemon>> GetRandom(int count)
         {
-            var query = $"SELECT TOP {count} * FROM pokemon ORDER BY NEWID()";
+            var query = $"SELECT TOP {count} lista.* FROM (SELECT p.*, tipo = STUFF((SELECT ', ' + tipo.nombre FROM tipo tipo JOIN pokemon_tipo pt ON pt.id_tipo = tipo.id_tipo WHERE pt.numero_pokedex = p.numero_pokedex FOR XML PATH ('')), 1, 1, '') FROM pokemon p) AS lista ORDER BY NEWID()";
             using (var connection = _conexion.ObtenerConexion())
             {
                 var randomPokemons = await connection.QueryAsync<Pokemon>(query);
