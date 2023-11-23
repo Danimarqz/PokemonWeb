@@ -15,6 +15,5 @@ namespace Pokemon.Models
         public float pokeWeight { get; set; }
         [Column("altura")]
         public float pokeHeight { get; set; }
-        public List<Movement> moves { get; set; }
     }
 }
