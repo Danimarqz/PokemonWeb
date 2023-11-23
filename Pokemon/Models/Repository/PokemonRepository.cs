@@ -51,5 +51,15 @@ namespace Pokemon.Models.Repository
                 return movimiento;
             }
         }
+
+        public async Task<IEnumerable<Pokemon>> GetFilter(string filter)
+        {
+            var query = $"SELECT * FROM pokemon ORDER BY {filter}";
+            using (var connection = _conexion.ObtenerConexion())
+            {
+                var filteredPokemon = await connection.QueryAsync<Pokemon> (query);
+                return filteredPokemon.ToList();
+            }
+        }
     }
 }

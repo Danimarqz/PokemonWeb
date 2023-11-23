@@ -31,6 +31,12 @@ namespace Pokemon.Controllers
             return View("VerPokemon", pokemon);
         }
         [HttpGet]
+        public async Task<IActionResult> FilterBy(string filtro)
+        {
+            var filteredPokemon = await _pokemonRepository.GetFilter(filtro);
+            return View("Index", filteredPokemon);
+        }
+        [HttpGet]
         public async Task<IActionResult> GetDetail(int codigo)
         {
             var pokemon = await _pokemonRepository.GetPokemonById(codigo);
