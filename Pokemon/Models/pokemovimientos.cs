@@ -3,6 +3,6 @@
     public class pokemovimientos
     {
         public Pokemon Pokemons { get; set; }
-        public IEnumerable<movimiento> Movimientos { get; set; }
+        public IEnumerable<Movement> Moves { get; set; }
     }
 }

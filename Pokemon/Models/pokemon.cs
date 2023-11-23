@@ -8,10 +8,13 @@ namespace Pokemon.Models
     {
         [Key]
         [Column("numero_pokedex")]
-        public int numero_pokedex {  get; set; }
-        public string nombre { get; set; }
-        public float peso { get; set; }
-        public float altura { get; set; }
-        public List<movimiento> movimientos { get; set; }
+        public int numPokedex {  get; set; }
+        [Column("nombre")]
+        public string pokeName { get; set; }
+        [Column("peso")]
+        public float pokeWeight { get; set; }
+        [Column("altura")]
+        public float pokeHeight { get; set; }
+        public List<Movement> moves { get; set; }
     }
 }

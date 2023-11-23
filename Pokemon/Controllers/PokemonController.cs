@@ -7,8 +7,8 @@ namespace Pokemon.Controllers
     public class PokemonController : Controller
     {
         private readonly IPokemonRepository _pokemonRepository;
-        private readonly IMovimientoRepository _movimientoRepository;
-        public PokemonController(IPokemonRepository pokemonRepository, IMovimientoRepository movimientoRepository)
+        private readonly IMovementRepository _movimientoRepository;
+        public PokemonController(IPokemonRepository pokemonRepository, IMovementRepository movimientoRepository)
         {
             _pokemonRepository = pokemonRepository;
             _movimientoRepository = movimientoRepository;
@@ -37,7 +37,7 @@ namespace Pokemon.Controllers
             var movimientos = await _movimientoRepository.GetMovimientos(codigo);
             pokemovimientos suma = new pokemovimientos();
             suma.Pokemons = pokemon;
-            suma.Movimientos = movimientos;
+            suma.Moves = movimientos;
             return View("VerPokemon", suma);
         }
     

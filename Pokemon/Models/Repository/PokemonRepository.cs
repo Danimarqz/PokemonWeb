@@ -42,12 +42,12 @@ namespace Pokemon.Models.Repository
             }
         }
         [HttpGet]
-        public async Task<movimiento> GetMovimiento(int id)
+        public async Task<Movement> GetMovimiento(int id)
         {
             var query = $"SELECT * FROM movimiento m JOIN pokemon_movimiento_forma pmf ON pmf.id_movimiento = m.id_movimiento JOIN pokemon p ON pmf.numero_pokedex = p.numero_pokedex WHERE p.numero_pokedex = {id}";
             using (var connection = _conexion.ObtenerConexion())
             {
-                var movimiento = await connection.QuerySingleOrDefaultAsync<movimiento>(query);
+                var movimiento = await connection.QuerySingleOrDefaultAsync<Movement>(query);
                 return movimiento;
             }
         }
