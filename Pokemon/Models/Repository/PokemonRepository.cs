@@ -24,7 +24,7 @@ namespace Pokemon.Models.Repository
         }
         public async Task<Pokemon> GetPokemonById(int? id)
         {
-            var query = "SELECT * FROM pokemon WHERE numero_pokedex = @id";
+            var query = $"SELECT * FROM pokemon WHERE numero_pokedex = {id}";
             using (var connection = _conexion.ObtenerConexion())
             {
                 var pokemon = await connection.QuerySingleOrDefaultAsync<Pokemon>(query, new { id });
