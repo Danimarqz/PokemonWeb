@@ -24,7 +24,7 @@ namespace Pokemon.Models.Repository
         }
         public async Task<Pokemon> GetPokemonById(int? id)
         {
-            var query = "SELECT * FROM pokemon WHERE numero_pokedex = @id";
+            var query = $"SELECT * FROM pokemon WHERE numero_pokedex = {id}";
             using (var connection = _conexion.ObtenerConexion())
             {
                 var pokemon = await connection.QuerySingleOrDefaultAsync<Pokemon>(query, new { id });
@@ -49,6 +49,16 @@ namespace Pokemon.Models.Repository
             {
                 var movimiento = await connection.QuerySingleOrDefaultAsync<Movimiento>(query);
                 return movimiento;
+            }
+        }
+
+        public async Task<IEnumerable<Pokemon>> GetFilter(string filter)
+        {
+            var query = $"SELECT * FROM pokemon ORDER BY {filter}";
+            using (var connection = _conexion.ObtenerConexion())
+            {
+                var filteredPokemon = await connection.QueryAsync<Pokemon> (query);
+                return filteredPokemon.ToList();
             }
         }
     }

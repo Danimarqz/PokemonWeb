@@ -10,10 +10,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.numero_pokedex)
+                @Html.DisplayNameFor(model => model.nombre)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.nombre)
+            </th>
+            <th>
+                @Html.ActionLink(@Html.DisplayNameFor(model => model.peso), "FilterBy", "peso")
+            </th>
+            <th>
+                @Html.ActionLink(@Html.DisplayNameFor(model => model.peso), "FilterBy", "altura")
             </th>
             <th></th>
         </tr>
@@ -26,6 +32,12 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.peso)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.altura)
             </td>
             <td>
                 @Html.ActionLink("Detalles", "GetDetail", new { codigo = item.numero_pokedex })
