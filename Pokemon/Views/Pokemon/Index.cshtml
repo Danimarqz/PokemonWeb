@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Pokemon>
+﻿@model IEnumerable<PokeMovimiento>;
 
 @{
     ViewData["Title"] = "Index";
@@ -10,41 +10,60 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.nombre)
+                Número pokedex
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.nombre)
+                Nombre
             </th>
             <th>
-                @Html.ActionLink(@Html.DisplayNameFor(model => model.peso), "FilterBy", "peso")
+                <a href=@Url.Action("FilterBy", "Pokemon", new { filtro = "peso"})>
+                    Peso @(
+                        ViewBag.DireccionPeso == null ? "" : ViewBag.DireccionPeso == "DESC" ? "↓" : "↑")</a>
             </th>
             <th>
-                @Html.ActionLink(@Html.DisplayNameFor(model => model.peso), "FilterBy", "altura")
+                <a href=@Url.Action("FilterBy", "Pokemon", new { filtro = "altura"})>
+                    Altura @(
+                    ViewBag.DireccionAlt == null ? "" : ViewBag.DireccionAlt == "DESC" ? "↓" : "↑")
+                </a>
+            </th>
+            <th>
+                <a href=@Url.Action("FilterByTipo", "Tipo", new { filtro = "tipo"})>
+                    Tipo @(
+                    ViewBag.DireccionAlt == null ? "" : ViewBag.DireccionAlt == "DESC" ? "↓" : "↑")
+                </a>
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.numero_pokedex)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.peso)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.altura)
-            </td>
-            <td>
-                @Html.ActionLink("Detalles", "GetDetail", new { codigo = item.numero_pokedex })
-            </td>            <td>
-                Añadir a mi equipo
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.pokemons.numero_pokedex)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.pokemons.nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.pokemons.peso)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.pokemons.altura)
+                </td>
+                <td>
+                    @foreach (var tipo in item.tipos)
+                    {
+                        @Html.DisplayFor(modelItem => tipo.nombre)
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("Detalles", "GetDetail", new { codigo = item.pokemons.numero_pokedex })
+                </td>
+                <td>
+                    Añadir a mi equipo
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

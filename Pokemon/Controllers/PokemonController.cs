@@ -8,10 +8,12 @@ namespace Pokemon.Controllers
     {
         private readonly IPokemonRepository _pokemonRepository;
         private readonly IMovimientoRepository _movimientoRepository;
-        public PokemonController(IPokemonRepository pokemonRepository, IMovimientoRepository movimientoRepository)
+        private readonly ITipoRepository _tipoRepository;
+        public PokemonController(IPokemonRepository pokemonRepository, IMovimientoRepository movimientoRepository, ITipoRepository tipoRepository)
         {
             _pokemonRepository = pokemonRepository;
             _movimientoRepository = movimientoRepository;
+            _tipoRepository = tipoRepository;
         }
         public async Task<IActionResult> Index()
         {
@@ -33,15 +35,29 @@ namespace Pokemon.Controllers
         [HttpGet]
         public async Task<IActionResult> FilterBy(string filtro)
         {
-            var filteredPokemon = await _pokemonRepository.GetFilter(filtro);
+            string direccion;
+            if (filtro == "peso")
+            {
+                direccion = dirPeso = dirPeso == null ? "ASC" : "DESC";
+                dirAltura = null;
+            } else
+            {
+                direccion = dirAltura = dirAltura == null ? "ASC" : "DESC";
+                dirPeso = null;
+            }
+            ViewBag.DireccionPeso = dirPeso;
+            ViewBag.DireccionAlt = dirAltura;
+            var filteredPokemon = await _pokemonRepository.GetFilter(filtro, direccion);
             return View("Index", filteredPokemon);
         }
-        [HttpGet]
+        static string dirPeso = null;
+        static string dirAltura = null;
+    [HttpGet]
         public async Task<IActionResult> GetDetail(int codigo)
         {
             var pokemon = await _pokemonRepository.GetPokemonById(codigo);
             var movimientos = await _movimientoRepository.GetMovimientos(codigo);
-            PokeData suma = new PokeData();
+            PokeMovimiento suma = new PokeMovimiento();
             suma.pokemons = pokemon;
             suma.movimientos = movimientos;
 

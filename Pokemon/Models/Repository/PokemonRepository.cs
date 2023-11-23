@@ -1,4 +1,4 @@
-﻿using Dapper;
+﻿         using Dapper;
 using Microsoft.AspNetCore.Mvc;
 using Pokemon.Models;
 
@@ -51,10 +51,20 @@ namespace Pokemon.Models.Repository
                 return movimiento;
             }
         }
-
-        public async Task<IEnumerable<Pokemon>> GetFilter(string filter)
+        [HttpGet]
+        public async Task<Tipo> GetTipoById(int id)
         {
-            var query = $"SELECT * FROM pokemon ORDER BY {filter}";
+            var query = $"SELECT t.nombre FROM tipo t JOIN pokemon_tipo pt on t.id_tipo = pt.id_tipo JOIN pokemon p ON pt.numero_pokedex = p.numero_pokedex WHERE p.id = {id}";
+            using (var connection = _conexion.ObtenerConexion())
+            {
+                var tipoPokemon = await connection.QuerySingleOrDefaultAsync<Tipo>(query, new { id });
+                return tipoPokemon;
+            }
+        }
+
+        public async Task<IEnumerable<Pokemon>> GetFilter(string filter, string direccion)
+        {
+            var query = $"SELECT * FROM pokemon ORDER BY {filter} {direccion}";
             using (var connection = _conexion.ObtenerConexion())
             {
                 var filteredPokemon = await connection.QueryAsync<Pokemon> (query);

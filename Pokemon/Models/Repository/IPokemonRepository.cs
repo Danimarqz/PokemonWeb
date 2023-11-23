@@ -8,6 +8,6 @@ namespace Pokemon.Models.Repository
         Task<IEnumerable<Pokemon>> GetPokemons();
         Task<Pokemon> GetPokemonById(int? id);
         Task<IEnumerable<Pokemon>> GetRandom(int count);
-        Task<IEnumerable<Pokemon>> GetFilter(string filter);
+        Task<IEnumerable<Pokemon>> GetFilter(string filter, string direccion);
     }
 }
