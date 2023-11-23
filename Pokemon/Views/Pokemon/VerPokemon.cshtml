@@ -1,4 +1,4 @@
-﻿@model Pokemon.Models.pokemovimientos
+﻿@model pokemovimientos
 
 @{
     ViewData["Title"] = "VerPokemon";
@@ -7,32 +7,32 @@
 <h1>Detalles Pokemon</h1>
 
 <div>
-    <h4>@Html.DisplayFor(model => model.Pokemons.numero_pokedex)</h4>
+    <h4>@Html.DisplayFor(model => model.Pokemons.numPokedex)</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Pokemons.numero_pokedex)
+            @Html.DisplayNameFor(model => model.Pokemons.numPokedex)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Pokemons.numero_pokedex)
+            @Html.DisplayFor(model => model.Pokemons.numPokedex)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Pokemons.nombre)
+            @Html.DisplayNameFor(model => model.Pokemons.pokeName)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Pokemons.nombre)
+            @Html.DisplayFor(model => model.Pokemons.pokeName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Pokemons.peso)
+            @Html.DisplayNameFor(model => model.Pokemons.pokeWeight)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Pokemons.peso)
+            @Html.DisplayFor(model => model.Pokemons.pokeWeight)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Pokemons.altura)
+            @Html.DisplayNameFor(model => model.Pokemons.pokeHeight)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Pokemons.altura)
+            @Html.DisplayFor(model => model.Pokemons.pokeHeight)
         </dd>
         <dt class = "col-sm-2">
             Evolución
@@ -49,10 +49,10 @@
         <dt class="col-sm-2">
             Movimientos
         </dt>
-        @foreach (var item in Model.Movimientos)
+        @foreach (var item in Model.Moves)
         {
             <dd class="col-sm-2">
-                @Html.DisplayFor(modelItem => item.nombre)
+                @Html.DisplayFor(modelItem => item.movementName)
             </dd>
         }
     </dl>

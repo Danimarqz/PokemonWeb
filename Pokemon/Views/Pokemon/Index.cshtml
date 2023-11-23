@@ -1,4 +1,4 @@
-﻿@model             IEnumerable<Pokemon>
+﻿@model IEnumerable<Pokemon>
 
 @{
     ViewData["Title"] = "Index";
@@ -10,10 +10,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.numero_pokedex)
+                @Html.DisplayNameFor(model => model.pokeName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.nombre)
+                @Html.DisplayNameFor(model => model.pokeName)
             </th>
             <th></th>
         </tr>
@@ -22,13 +22,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.numero_pokedex)
+                @Html.DisplayFor(modelItem => item.numPokedex)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.nombre)
+                @Html.DisplayFor(modelItem => item.pokeName)
             </td>
             <td>
-                @Html.ActionLink("Detalles", "GetDetail", new { codigo = item.numero_pokedex })
+                @Html.ActionLink("Detalles", "GetDetail", new { codigo = item.numPokedex })
             </td>            <td>
                 Añadir a mi equipo
             </td>
