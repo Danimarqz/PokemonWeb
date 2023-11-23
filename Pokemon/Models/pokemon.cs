@@ -1,6 +1,9 @@
-﻿namespace Pokemon.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Pokemon.Models
 {
-    public class pokemon
+    [Table("pokemon")]
+    public class Pokemon
     {
         public int numero_pokedex {  get; set; }
         public string nombre { get; set; }

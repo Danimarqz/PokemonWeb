@@ -2,6 +2,6 @@
 {
     public interface IMovimientoRepository
     {
-        Task<IEnumerable<movimiento>> GetMovimientos(int id);
+        Task<IEnumerable<Movimiento>> GetMovimientos(int id);
     }
 }

@@ -1,6 +1,9 @@
-﻿namespace Pokemon.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Pokemon.Models
 {
-    public class movimiento
+    [Table("movimiento")]
+    public class Movimiento
     {
         public int id_movimiento {  get; set; }
         public string nombre { get; set; }

@@ -35,9 +35,9 @@ namespace Pokemon.Controllers
         {
             var pokemon = await _pokemonRepository.GetPokemonById(codigo);
             var movimientos = await _movimientoRepository.GetMovimientos(codigo);
-            pokemovimientos suma = new pokemovimientos();
-            suma.Pokemons = pokemon;
-            suma.Movimientos = movimientos;
+            PokeData suma = new PokeData();
+            suma.pokemons = pokemon;
+            suma.movimientos = movimientos;
             return View("VerPokemon", suma);
         }
     

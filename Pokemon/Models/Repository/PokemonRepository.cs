@@ -13,41 +13,41 @@ namespace Pokemon.Models.Repository
             _conexion = conexion;
         }
 
-        public async Task<IEnumerable<pokemon>> GetPokemons()
+        public async Task<IEnumerable<Pokemon>> GetPokemons()
         {
             var query = "SELECT * FROM pokemon";
             using (var connection = _conexion.ObtenerConexion())
             {
-                var pokemons = await connection.QueryAsync<pokemon>(query);
+                var pokemons = await connection.QueryAsync<Pokemon>(query);
                 return pokemons.ToList();
             }
         }
-        public async Task<pokemon> GetPokemonById(int? id)
+        public async Task<Pokemon> GetPokemonById(int? id)
         {
             var query = "SELECT * FROM pokemon WHERE numero_pokedex = @id";
             using (var connection = _conexion.ObtenerConexion())
             {
-                var pokemon = await connection.QuerySingleOrDefaultAsync<pokemon>(query, new { id });
+                var pokemon = await connection.QuerySingleOrDefaultAsync<Pokemon>(query, new { id });
                 return pokemon;
             }
         }
         [HttpGet]
-        public async Task<IEnumerable<pokemon>> GetRandom(int count)
+        public async Task<IEnumerable<Pokemon>> GetRandom(int count)
         {
             var query = $"SELECT TOP {count} * FROM pokemon ORDER BY NEWID()";
             using (var connection = _conexion.ObtenerConexion())
             {
-                var randomPokemons = await connection.QueryAsync<pokemon>(query);
+                var randomPokemons = await connection.QueryAsync<Pokemon>(query);
                 return randomPokemons.ToList();
             }
         }
         [HttpGet]
-        public async Task<movimiento> GetMovimiento(int id)
+        public async Task<Movimiento> GetMovimiento(int id)
         {
             var query = $"SELECT * FROM movimiento m JOIN pokemon_movimiento_forma pmf ON pmf.id_movimiento = m.id_movimiento JOIN pokemon p ON pmf.numero_pokedex = p.numero_pokedex WHERE p.numero_pokedex = {id}";
             using (var connection = _conexion.ObtenerConexion())
             {
-                var movimiento = await connection.QuerySingleOrDefaultAsync<movimiento>(query);
+                var movimiento = await connection.QuerySingleOrDefaultAsync<Movimiento>(query);
                 return movimiento;
             }
         }
