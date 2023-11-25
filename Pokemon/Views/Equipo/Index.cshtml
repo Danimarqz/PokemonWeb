@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Equipo aleatorio</h1>
 
 <table class="table">
     <thead>
@@ -16,13 +16,13 @@
                 Nombre
             </th>
             <th>
-                <a href=@Url.Action("FilterBy", "Pokemon", new { filtro = "peso"})>
+                <a href=@Url.Action("FilterBy", "Equipo", new { filtro = "peso"})>
                     Peso @(
                     ViewBag.DireccionPeso == null ? "" : ViewBag.DireccionPeso == "DESC" ? "↓" : "↑")
                 </a>
             </th>
             <th>
-                <a href=@Url.Action("FilterBy", "Pokemon", new { filtro = "altura"})>
+                <a href=@Url.Action("FilterBy", "Equipo", new { filtro = "altura"})>
                     Altura @(
                     ViewBag.DireccionAlt == null ? "" : ViewBag.DireccionAlt == "DESC" ? "↓" : "↑")
                 </a>

@@ -25,5 +25,26 @@ namespace Pokemon.Controllers
             ViewBag.AlturaMedia = alturaMedia;
             return View("Index", randomPokemons);
         }
+        [HttpGet]
+        public async Task<IActionResult> FilterBy(string filtro)
+        {
+            string direccion;
+            if (filtro == "peso")
+            {
+                direccion = dirPeso = dirPeso == null ? "ASC" : "DESC";
+                dirAltura = null;
+            }
+            else
+            {
+                direccion = dirAltura = dirAltura == null ? "ASC" : "DESC";
+                dirPeso = null;
+            }
+            ViewBag.DireccionPeso = dirPeso;
+            ViewBag.DireccionAlt = dirAltura;
+            var filteredPokemon = await _pokemonRepository.GetRandom(6, filtro, direccion);
+            return View("Index", filteredPokemon);
+        }
+        static string dirPeso = null;
+        static string dirAltura = null;
     }
 }
