@@ -1,4 +1,5 @@
-﻿         using Dapper;
+﻿using Dapper;
+using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Plugins;
 using Pokemon.Models;
@@ -33,9 +34,17 @@ namespace Pokemon.Models.Repository
             }
         }
         [HttpGet]
-        public async Task<IEnumerable<Pokemon>> GetRandom(int count, string filter, string direccion)
+        public async Task<IEnumerable<Pokemon>> GetRandom(int count, string tipos, string filter, string direccion)
         {
-            var query = $"SELECT rfp.* FROM (SELECT TOP {count} lista.* FROM (SELECT p.*, tipo = STUFF((SELECT ', ' + tipo.nombre FROM tipo tipo JOIN pokemon_tipo pt ON pt.id_tipo = tipo.id_tipo WHERE pt.numero_pokedex = p.numero_pokedex FOR XML PATH ('')), 1, 1, '') FROM pokemon p) AS lista ORDER BY NEWID()) as rfp ORDER BY {filter} {direccion}";
+            string tiposN = (tipos != null) ? tiposN = tipos.Split(" ")[0] : null;
+            string filtroTipo = (tiposN != null) ? $"AND t.nombre IN ({tiposN})" : "";
+            var query = $"SELECT rgp.* FROM (" +
+                $"SELECT TOP {count} p.*, tipo = STUFF((SELECT ', ' + tipo.nombre " +
+                $"FROM tipo tipo JOIN pokemon_tipo pt ON pt.id_tipo = tipo.id_tipo " +
+                $"WHERE pt.numero_pokedex = p.numero_pokedex FOR XML PATH('')), 1, 1, '') " +
+                $"FROM pokemon p WHERE EXISTS( SELECT 1 FROM pokemon_tipo pt JOIN tipo t ON pt.id_tipo = t.id_tipo " +
+                $"WHERE pt.numero_pokedex = p.numero_pokedex {filtroTipo})ORDER BY NEWID())" +
+                $" as rgp ORDER BY rgp.{filter} {direccion}";
             using (var connection = _conexion.ObtenerConexion())
             {
                 var randomPokemons = await connection.QueryAsync<Pokemon>(query);
@@ -68,7 +77,7 @@ namespace Pokemon.Models.Repository
             var query = $"SELECT * FROM pokemon ORDER BY {filter} {direccion}";
             using (var connection = _conexion.ObtenerConexion())
             {
-                var filteredPokemon = await connection.QueryAsync<Pokemon> (query);
+                var filteredPokemon = await connection.QueryAsync<Pokemon>(query);
                 return filteredPokemon.ToList();
             }
         }

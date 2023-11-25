@@ -28,10 +28,13 @@
                 </a>
             </th>
             <th>
-                <a href=@Url.Action("FilterByTipo", "Tipo", new { filtro = "tipo"})>
-                    Tipo @(
-                    ViewBag.DireccionAlt == null ? "" : ViewBag.DireccionAlt == "DESC" ? "↓" : "↑")
+                <form method="post" asp-controller="Equipo" asp-action="FilterBy" id="typeFilter">
+                <a href=@Url.Action("FilterBy", "Equipo", new { filtro = "tipo"})>
+                    Tipo
                 </a>
+                <input type="Tipo" placeholder="Filtra por tipo" name="tipos" id="typeFilterText"/>
+                <button type="submit">Filtrar</button>
+                </form>
             </th>
             <th></th>
         </tr>
