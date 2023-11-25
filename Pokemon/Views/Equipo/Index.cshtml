@@ -57,7 +57,7 @@
                     @Html.DisplayFor(modelItem => item.tipo)
                 </td>
                 <td>
-                    @Html.ActionLink("Detalles", "GetDetail", new { codigo = item.numero_pokedex })
+                    @Html.ActionLink("Detalles", "GetDetail", "Pokemon", new { codigo = item.numero_pokedex })
                 </td>
                 <td>
                     Añadir a mi equipo
