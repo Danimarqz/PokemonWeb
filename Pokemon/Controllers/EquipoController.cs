@@ -38,28 +38,10 @@ namespace Pokemon.Controllers
             var sessionPokemons = await GetPokemonAsync();
             
             List<Models.Pokemon> pokemons = sessionPokemons;
-            IEnumerable<float> pesos = pokemons.Select(p => p.peso);
-            float pesoMedio = pesos.Any() ? Statistics.Median(pesos) : 0;
-            IEnumerable<float> alturas = pokemons.Select(p => p.altura);
-            float alturaMedia = alturas.Any() ? Statistics.Median(alturas) : 0;
-            var tipo = pokemons.Select(p => p.tipo).ToList();
-            List<string> tipoSeparado = new List<string>();
-            foreach (var i in tipo)
-            {
-                if (i.Contains(","))
-                    {
-                    string [] tipe = i.Split(',');
-                    tipoSeparado.Add(tipe[0]);
-                    tipoSeparado.Add(tipe[1].Trim());
-                } else
-                {
-                    tipoSeparado.Add(i);
-                }
-            }
+            var tipoSeparado = transformToString(pokemons.Select(p => p.tipo).ToList());
+            ViewBag.PesoMedio = pesoMedioCalc(pokemons);
             ViewBag.TipoPredominante = ObtenerValorMasFrecuente(tipoSeparado);
-            ViewBag.PesoMedio = pesoMedio;
-            ViewBag.AlturaMedia = alturaMedia;
-
+            ViewBag.AlturaMedia = alturaMedioCalc(pokemons);
             return View("Index", pokemons);
         }
         [HttpGet]
@@ -67,6 +49,7 @@ namespace Pokemon.Controllers
         {
             var sessionPokemons = await GetPokemonAsync();
             List<Models.Pokemon> filteredPokemons = sessionPokemons;
+            var tipoSeparado = transformToString(sessionPokemons.Select(p => p.tipo).ToList());
             switch (filtro)
             {
                 case "peso":
@@ -100,6 +83,9 @@ namespace Pokemon.Controllers
             }
             ViewBag.DireccionPeso = dirPeso;
             ViewBag.DireccionAlt = dirAltura;
+            ViewBag.TipoPredominante = ObtenerValorMasFrecuente(tipoSeparado);
+            ViewBag.PesoMedio = pesoMedioCalc(filteredPokemons);
+            ViewBag.AlturaMedia = alturaMedioCalc(filteredPokemons);
             return View("Index", filteredPokemons);
         }
         static string ObtenerValorMasFrecuente(List<string> lista)
@@ -112,6 +98,37 @@ namespace Pokemon.Controllers
 
             return valorMasFrecuente;
         }
+        static float pesoMedioCalc (List<Models.Pokemon> pokemons)
+        {
+            IEnumerable<float> pesos = pokemons.Select(p => p.peso);
+            float pesoMedio = pesos.Any() ? Statistics.Median(pesos) : 0;
+            return pesoMedio;
+        }
+        static float alturaMedioCalc (List<Models.Pokemon> pokemons)
+        {
+            IEnumerable<float> alturas = pokemons.Select(p => p.altura);
+            float alturaMedia = alturas.Any() ? Statistics.Median(alturas) : 0;
+            return alturaMedia;
+        }
+        static List<string> transformToString(List<string> tipo) { 
+            List<string> tipoSeparado = new List<string>();
+            foreach (var i in tipo)
+            {
+                if (i.Contains(","))
+                {
+                    string[] tipe = i.Split(',');
+                    tipoSeparado.Add(tipe[0]);
+                    tipoSeparado.Add(tipe[1].Trim());
+                }
+                else
+                {
+                    tipoSeparado.Add(i);
+                }
+            }
+            return tipoSeparado;
+        }
+
+
         static string dirPeso = null;
         static string dirAltura = null;
     }

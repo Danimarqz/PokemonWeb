@@ -10,5 +10,7 @@ namespace Pokemon.Models
         public float peso { get; set; }
         public float altura { get; set; }
         public string tipo { get; set; }
+        public string pokemon_evolucionado { get; set; }
+        public string pokemon_origen { get; set; }
     }
 }

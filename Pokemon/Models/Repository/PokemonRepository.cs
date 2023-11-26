@@ -17,7 +17,7 @@ namespace Pokemon.Models.Repository
 
         public async Task<IEnumerable<Pokemon>> GetPokemons()
         {
-            var query = "SELECT p.*, tipo = STUFF((SELECT ', ' + tipo.nombre FROM tipo tipo JOIN pokemon_tipo pt ON pt.id_tipo = tipo.id_tipo WHERE pt.numero_pokedex = p.numero_pokedex FOR XML PATH ('')), 1, 1, '') FROM pokemon p";
+            var query = "SELECT p.*, tipo = STUFF((SELECT ', ' + tipo.nombre FROM tipo JOIN pokemon_tipo pt ON pt.id_tipo = tipo.id_tipo WHERE pt.numero_pokedex = p.numero_pokedex FOR XML PATH ('')), 1, 1, ''), evolucionado.nombre AS pokemon_evolucionado, origen.nombre AS pokemon_origen FROM pokemon p FULL JOIN evoluciona_de e ON e.pokemon_origen = p.numero_pokedex LEFT JOIN pokemon evolucionado ON evolucionado.numero_pokedex = e.pokemon_evolucionado LEFT JOIN pokemon origen ON origen.numero_pokedex = e.pokemon_origen";
             using (var connection = _conexion.ObtenerConexion())
             {
                 var pokemons = await connection.QueryAsync<Pokemon>(query);
@@ -26,7 +26,7 @@ namespace Pokemon.Models.Repository
         }
         public async Task<Pokemon> GetPokemonById(int? id)
         {
-            var query = $"SELECT * FROM pokemon WHERE numero_pokedex = {id}";
+            var query = $"SELECT p.*, tipo = STUFF((SELECT ', ' + tipo.nombre FROM tipo JOIN pokemon_tipo pt ON pt.id_tipo = tipo.id_tipo WHERE pt.numero_pokedex = p.numero_pokedex FOR XML PATH ('')), 1, 1, ''), evolucionado.nombre AS pokemon_evolucionado, origen.nombre AS pokemon_origen FROM pokemon p FULL JOIN evoluciona_de e ON e.pokemon_origen = p.numero_pokedex LEFT JOIN pokemon evolucionado ON evolucionado.numero_pokedex = e.pokemon_evolucionado LEFT JOIN pokemon origen ON origen.numero_pokedex = e.pokemon_origen Where p.numero_pokedex = {id}";
             using (var connection = _conexion.ObtenerConexion())
             {
                 var pokemon = await connection.QuerySingleOrDefaultAsync<Pokemon>(query, new { id });
