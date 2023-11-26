@@ -42,11 +42,23 @@ namespace Pokemon.Controllers
             float pesoMedio = pesos.Any() ? Statistics.Median(pesos) : 0;
             IEnumerable<float> alturas = pokemons.Select(p => p.altura);
             float alturaMedia = alturas.Any() ? Statistics.Median(alturas) : 0;
-
+            var tipo = pokemons.Select(p => p.tipo).ToList();
+            List<string> tipoSeparado = new List<string>();
+            foreach (var i in tipo)
+            {
+                if (i.Contains(","))
+                    {
+                    string [] tipe = i.Split(',');
+                    tipoSeparado.Add(tipe[0]);
+                    tipoSeparado.Add(tipe[1].Trim());
+                } else
+                {
+                    tipoSeparado.Add(i);
+                }
+            }
+            ViewBag.TipoPredominante = ObtenerValorMasFrecuente(tipoSeparado);
             ViewBag.PesoMedio = pesoMedio;
             ViewBag.AlturaMedia = alturaMedia;
-
-
 
             return View("Index", pokemons);
         }
@@ -89,6 +101,16 @@ namespace Pokemon.Controllers
             ViewBag.DireccionPeso = dirPeso;
             ViewBag.DireccionAlt = dirAltura;
             return View("Index", filteredPokemons);
+        }
+        static string ObtenerValorMasFrecuente(List<string> lista)
+        {
+
+            var grupos = lista.GroupBy(x => x);
+            var gruposOrdenados = grupos.OrderByDescending(g => g.Count());
+            var grupoMasFrecuente = gruposOrdenados.First();
+            string valorMasFrecuente = grupoMasFrecuente.Key;
+
+            return valorMasFrecuente;
         }
         static string dirPeso = null;
         static string dirAltura = null;
