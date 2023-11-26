@@ -52,6 +52,12 @@ namespace Pokemon.Controllers
         }
         static string dirPeso = null;
         static string dirAltura = null;
+        [HttpGet]
+        public async Task<IActionResult> FilterByTipo(string tipoFiltro)
+        {
+            var filteredPokemon = await _pokemonRepository.GetFilterByTipo(tipoFiltro);
+            return View("Index", filteredPokemon);
+        }
     [HttpGet]
         public async Task<IActionResult> GetDetail(int codigo)
         {

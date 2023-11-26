@@ -26,11 +26,10 @@
                     ViewBag.DireccionAlt == null ? "" : ViewBag.DireccionAlt == "DESC" ? "↓" : "↑")
                 </a>
             </th>
-            <th>
-                <a href=@Url.Action("FilterByTipo", "Tipo", new { filtro = "tipo"})>
-                    Tipo @(
-                    ViewBag.DireccionAlt == null ? "" : ViewBag.DireccionAlt == "DESC" ? "↓" : "↑")
-                </a>
+            <th> Tipo<br />
+                    </a>
+                    <input type="Tipo" placeholder="Filtra por tipo" name="tipoFiltro" id="typeFilterText" />
+                    <button id="filterLink" onclick="filtrar()">Filtrar</button>
             </th>
             <th></th>
         </tr>
@@ -38,7 +37,6 @@
     <tbody>
         @foreach (var item in Model)
         {
-            Console.WriteLine(item.nombre);
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.numero_pokedex)
@@ -65,3 +63,9 @@
         }
     </tbody>
 </table>
+<script>
+    document.getElementById("filterLink").addEventListener("click", function () {
+        var tipoFiltro = document.getElementById("typeFilterText").value;
+        window.location.href = '@Url.Action("FilterByTipo", "Pokemon")?tipoFiltro=' + tipoFiltro;
+    });
+</script>

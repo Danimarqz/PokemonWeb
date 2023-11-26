@@ -80,6 +80,24 @@ namespace Pokemon.Models.Repository
                 var filteredPokemon = await connection.QueryAsync<Pokemon>(query);
                 return filteredPokemon.ToList();
             }
+        }        public async Task<IEnumerable<Pokemon>> GetFilterByTipo(string tipo)
+        {
+            if (string.IsNullOrEmpty(tipo))
+            {
+                return await GetPokemons();
+            }
+            tipo = tipo.Split(" ")[0];
+            var query = $"SELECT fp.* FROM (SELECT p.*, tipo = " +
+                $"STUFF((SELECT ', ' + tipo.nombre FROM tipo tipo JOIN pokemon_tipo pt ON pt.id_tipo = tipo.id_tipo " +
+                $"WHERE pt.numero_pokedex = p.numero_pokedex FOR XML PATH('')), 1, 1, '') FROM pokemon p " +
+                $"WHERE EXISTS(SELECT 1 FROM pokemon_tipo pt JOIN tipo t ON pt.id_tipo = t.id_tipo " +
+                $"WHERE pt.numero_pokedex = p.numero_pokedex AND t.nombre LIKE '{tipo}')) " +
+                $"as fp";
+            using (var connection = _conexion.ObtenerConexion())
+            {
+                var filteredPokemon = await connection.QueryAsync<Pokemon>(query);
+                return filteredPokemon.ToList();
+            }
         }
 
         public async Task<IEnumerable<Tipo>> GetTipos(int id)

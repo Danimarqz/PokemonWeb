@@ -2,6 +2,7 @@
 using Pokemon.Models;
 using Microsoft.AspNetCore.Mvc;
 using MathNet.Numerics.Statistics;
+using Pokemon.Extensions;
 
 namespace Pokemon.Controllers
 {
@@ -12,37 +13,82 @@ namespace Pokemon.Controllers
         {
             _pokemonRepository = pokemonRepository;
         }
+        public async Task<List<Models.Pokemon>> GetPokemonAsync()
+        {
+            List<Models.Pokemon> pokemon;
+            if (HttpContext.Session.GetString("SESSION") == null)
+            {
+                pokemon = new List<Models.Pokemon>();
+                var randomPokemons = await _pokemonRepository.GetRandom(6);
+                foreach (var item in randomPokemons)
+                {
+                    pokemon.Add(item);
+                }
+                HttpContext.Session.SetObject("SESSION", pokemon);
+            }
+            else
+            {
+                pokemon = HttpContext.Session.GetObject<List<Models.Pokemon>>("SESSION");
+            }
 
+            return pokemon;
+        }
         public async Task<IActionResult> Index()
         {
-            var randomPokemons = await _pokemonRepository.GetRandom(6);
-            IEnumerable<float> pesos = randomPokemons.Select(p => p.peso);
+            var sessionPokemons = await GetPokemonAsync();
+            
+            List<Models.Pokemon> pokemons = sessionPokemons;
+            IEnumerable<float> pesos = pokemons.Select(p => p.peso);
             float pesoMedio = pesos.Any() ? Statistics.Median(pesos) : 0;
-            IEnumerable<float> alturas = randomPokemons.Select(p => p.altura);
+            IEnumerable<float> alturas = pokemons.Select(p => p.altura);
             float alturaMedia = alturas.Any() ? Statistics.Median(alturas) : 0;
 
             ViewBag.PesoMedio = pesoMedio;
             ViewBag.AlturaMedia = alturaMedia;
-            return View("Index", randomPokemons);
+
+
+
+            return View("Index", pokemons);
         }
         [HttpGet]
         public async Task<IActionResult> FilterBy(string filtro)
         {
-            string direccion;
-            if (filtro == "peso")
+            var sessionPokemons = await GetPokemonAsync();
+            List<Models.Pokemon> filteredPokemons = sessionPokemons;
+            switch (filtro)
             {
-                direccion = dirPeso = dirPeso == null ? "ASC" : "DESC";
-                dirAltura = null;
-            }
-            else
-            {
-                direccion = dirAltura = dirAltura == null ? "ASC" : "DESC";
-                dirPeso = null;
+                case "peso":
+                    if (dirPeso == null || dirPeso == "DESC") 
+                    {
+                        filteredPokemons = filteredPokemons.OrderBy(p => p.peso).ToList();
+                        dirPeso = "ASC";
+
+                    } 
+                    else
+                    {
+                        filteredPokemons = filteredPokemons.OrderByDescending(p => p.peso).ToList();
+                        dirPeso = "DESC";
+                    };
+                    dirAltura = null;
+                    break;
+                case "altura":
+                    if (dirAltura == null || dirAltura == "DESC")
+                    {
+                        filteredPokemons = filteredPokemons.OrderBy(p => p.altura).ToList();
+                        dirAltura = "ASC";
+                    }
+                    else
+                    {
+                        filteredPokemons = filteredPokemons.OrderByDescending(p => p.altura).ToList();
+                        dirAltura = "DESSC";
+                    };
+                    dirPeso = null;
+                    break;
+
             }
             ViewBag.DireccionPeso = dirPeso;
             ViewBag.DireccionAlt = dirAltura;
-            var filteredPokemon = await _pokemonRepository.GetRandom(6, filtro, direccion);
-            return View("Index", filteredPokemon);
+            return View("Index", filteredPokemons);
         }
         static string dirPeso = null;
         static string dirAltura = null;

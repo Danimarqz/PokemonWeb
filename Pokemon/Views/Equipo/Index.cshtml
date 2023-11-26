@@ -28,13 +28,7 @@
                 </a>
             </th>
             <th>
-                <form method="post" asp-controller="Equipo" asp-action="FilterBy" id="typeFilter">
-                <a href=@Url.Action("FilterBy", "Equipo", new { filtro = "tipo"})>
                     Tipo
-                </a>
-                <input type="Tipo" placeholder="Filtra por tipo" name="tipos" id="typeFilterText"/>
-                <button type="submit">Filtrar</button>
-                </form>
             </th>
             <th></th>
         </tr>
@@ -42,30 +36,29 @@
     <tbody>
         @foreach (var item in Model)
         {
-            Console.WriteLine(item.nombre);
-            <tr>
-                <td>
+                        <tr>
+                            <td>
                     @Html.DisplayFor(modelItem => item.numero_pokedex)
-                </td>
-                <td>
+                            </td>
+                            <td>
                     @Html.DisplayFor(modelItem => item.nombre)
-                </td>
-                <td>
+                            </td>
+                            <td>
                     @Html.DisplayFor(modelItem => item.peso)
-                </td>
-                <td>
+                            </td>
+                            <td>
                     @Html.DisplayFor(modelItem => item.altura)
-                </td>
-                <td>
+                            </td>
+                            <td>
                     @Html.DisplayFor(modelItem => item.tipo)
-                </td>
-                <td>
+                            </td>
+                            <td>
                     @Html.ActionLink("Detalles", "GetDetail", "Pokemon", new { codigo = item.numero_pokedex })
-                </td>
-                <td>
-                    Añadir a mi equipo
-                </td>
-            </tr>
+                            </td>
+                            <td>
+                                Añadir a mi equipo
+                            </td>
+                        </tr>
         }
     </tbody>
 </table>
