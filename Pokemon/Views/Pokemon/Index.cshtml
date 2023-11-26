@@ -5,7 +5,12 @@
 }
 
 <h1>Index</h1>
-
+<p>
+@if (ViewBag.ErrorMessage != null)
+{
+    @ViewBag.ErrorMessage
+}
+</p>
 <table class="table">
     <thead>
         <tr>
@@ -57,7 +62,7 @@
                     @Html.ActionLink("Detalles", "GetDetail", new { codigo = item.numero_pokedex })
                 </td>
                 <td>
-                    Añadir a mi equipo
+                    <a href=@Url.Action("SavePokemon", "Pokemon", new { numPokedex = item.numero_pokedex })>Añadir a mi equipo</a>
                 </td>
             </tr>
         }

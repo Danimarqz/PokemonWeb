@@ -1,6 +1,7 @@
 ﻿using Pokemon.Models.Repository;
 using Pokemon.Models;
 using Microsoft.AspNetCore.Mvc;
+using Pokemon.Extensions;
 
 namespace Pokemon.Controllers
 {
@@ -16,12 +17,6 @@ namespace Pokemon.Controllers
             _tipoRepository = tipoRepository;
         }
         public async Task<IActionResult> Index()
-        {
-            return RedirectToAction("GetAll");
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
         {
             var Data = await _pokemonRepository.GetPokemons();
             return View("Index", Data);
@@ -70,6 +65,22 @@ namespace Pokemon.Controllers
             suma.tipos = tipos;
 
             return View("VerPokemon", suma);
+        }
+        public async Task<IActionResult> SavePokemon(int numPokedex)
+        {
+            var Data = await Index();
+            List<Models.Pokemon> equipo; 
+            equipo = HttpContext.Session.GetObject<List<Models.Pokemon>>("MiEquipo") ?? new List<Models.Pokemon>();
+            if (equipo.Count <6)
+            {
+                var pokemon = await _pokemonRepository.GetPokemonById(numPokedex);
+                equipo.Add(pokemon);
+                HttpContext.Session.SetObject("MiEquipo", equipo);
+            } else
+            {
+              ViewBag.ErrorMessage ="Demasiados Pokémon añadidos al equipo";
+            }
+            return View("Index", Data);
         }
     
     }

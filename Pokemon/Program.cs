@@ -12,7 +12,6 @@ builder.Services.AddScoped<ITipoRepository, TipoRepository>();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.Cookie.Name = ".Pokemon.Session";
     options.IdleTimeout = TimeSpan.FromMinutes(15);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
