@@ -17,7 +17,7 @@ namespace Pokemon.Models.Repository
 
         public async Task<IEnumerable<Pokemon>> GetPokemons()
         {
-            var query = "SELECT p.*, tipo = STUFF((SELECT ', ' + tipo.nombre FROM tipo JOIN pokemon_tipo pt ON pt.id_tipo = tipo.id_tipo WHERE pt.numero_pokedex = p.numero_pokedex FOR XML PATH ('')), 1, 1, ''), evolucionado.nombre AS pokemon_evolucionado, origen.nombre AS pokemon_origen FROM pokemon p FULL JOIN evoluciona_de e ON e.pokemon_origen = p.numero_pokedex LEFT JOIN pokemon evolucionado ON evolucionado.numero_pokedex = e.pokemon_evolucionado LEFT JOIN pokemon origen ON origen.numero_pokedex = e.pokemon_origen";
+            var query = "WITH RankedPokemon AS (SELECT p.*, tipo = STUFF((SELECT ', ' + tipo.nombre FROM tipo JOIN pokemon_tipo pt ON pt.id_tipo = tipo.id_tipo WHERE pt.numero_pokedex = p.numero_pokedex FOR XML PATH ('')), 1, 1, ''), evolucionado.nombre AS pokemon_evolucionado, origen.nombre AS pokemon_origen, ROW_NUMBER() OVER (PARTITION BY p.numero_pokedex ORDER BY (SELECT NULL)) AS RowNum FROM pokemon p FULL JOIN evoluciona_de e ON e.pokemon_origen = p.numero_pokedex LEFT JOIN pokemon evolucionado ON evolucionado.numero_pokedex = e.pokemon_evolucionado LEFT JOIN pokemon origen ON origen.numero_pokedex = e.pokemon_origen) SELECT * FROM RankedPokemon WHERE RowNum = 1;\r\n";
             using (var connection = _conexion.ObtenerConexion())
             {
                 var pokemons = await connection.QueryAsync<Pokemon>(query);
@@ -26,7 +26,17 @@ namespace Pokemon.Models.Repository
         }
         public async Task<Pokemon> GetPokemonById(int? id)
         {
-            var query = $"SELECT p.*, tipo = STUFF((SELECT ', ' + tipo.nombre FROM tipo JOIN pokemon_tipo pt ON pt.id_tipo = tipo.id_tipo WHERE pt.numero_pokedex = p.numero_pokedex FOR XML PATH ('')), 1, 1, ''), evolucionado.nombre AS pokemon_evolucionado, origen.nombre AS pokemon_origen FROM pokemon p FULL JOIN evoluciona_de e ON e.pokemon_origen = p.numero_pokedex LEFT JOIN pokemon evolucionado ON evolucionado.numero_pokedex = e.pokemon_evolucionado LEFT JOIN pokemon origen ON origen.numero_pokedex = e.pokemon_origen Where p.numero_pokedex = {id}";
+            var query = $"SELECT TOP 1 p.*, tipo = STUFF((" +
+                $"SELECT ', ' + tipo.nombre FROM tipo JOIN pokemon_tipo pt ON pt.id_tipo = tipo.id_tipo " +
+                $"WHERE pt.numero_pokedex = p.numero_pokedex FOR XML PATH ('')), 1, 1, '')" +
+                $", pokemon_evolucionado = STUFF((SELECT ', ' + evolucionado.nombre FROM pokemon p " +
+                $"FULL JOIN evoluciona_de e ON e.pokemon_origen = p.numero_pokedex " +
+                $"LEFT JOIN pokemon evolucionado ON evolucionado.numero_pokedex = e.pokemon_evolucionado " +
+                $"LEFT JOIN pokemon origen ON origen.numero_pokedex = e.pokemon_origen Where p.numero_pokedex = {id} " +
+                $"FOR XML PATH ('')), 1, 1, ''), origen.nombre AS pokemon_origen FROM pokemon p " +
+                $"FULL JOIN evoluciona_de e ON e.pokemon_origen = p.numero_pokedex " +
+                $"LEFT JOIN pokemon evolucionado ON evolucionado.numero_pokedex = e.pokemon_evolucionado " +
+                $"LEFT JOIN pokemon origen ON origen.numero_pokedex = e.pokemon_origen Where p.numero_pokedex = {id}";
             using (var connection = _conexion.ObtenerConexion())
             {
                 var pokemon = await connection.QuerySingleOrDefaultAsync<Pokemon>(query, new { id });
@@ -54,7 +64,7 @@ namespace Pokemon.Models.Repository
         [HttpGet]
         public async Task<Movimiento> GetMovimiento(int id)
         {
-            var query = $"SELECT * FROM movimiento m JOIN pokemon_movimiento_forma pmf ON pmf.id_movimiento = m.id_movimiento JOIN pokemon p ON pmf.numero_pokedex = p.numero_pokedex WHERE p.numero_pokedex = {id}";
+            var query = $"SELECT STUFF((SELECT ', ' + m.nombre FROM movimiento m JOIN pokemon_movimiento_forma pmf ON pmf.id_movimiento = m.id_movimiento JOIN pokemon p ON pmf.numero_pokedex = p.numero_pokedex WHERE p.numero_pokedex = {id} FOR XML PATH('')), 1, 2, '') AS movimientos_concatenados";
             using (var connection = _conexion.ObtenerConexion())
             {
                 var movimiento = await connection.QuerySingleOrDefaultAsync<Movimiento>(query);

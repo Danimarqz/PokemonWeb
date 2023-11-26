@@ -48,21 +48,21 @@
         <dt class="col-sm-2">
             Movimientos
         </dt>
+            <dd class="col-sm-10">
         @foreach (var item in Model.movimientos)
         {
-            <dd class="col-sm-2">
                 @Html.DisplayFor(modelItem => item.nombre)
-            </dd>
         }
+            </dd>
         <dt class="col-sm-2">
             Tipos
         </dt>
+            <dd class="col-sm-10">
         @foreach (var item in Model.tipos)
         {
-            <dd class="col-sm-2">
-                @Html.DisplayFor(modelItem => item.nombre)
-            </dd>
+                <span>@Html.DisplayFor(modelItem => item.nombre) </span>
         }
+            </dd>
     </dl>
 </div>
 <div>
