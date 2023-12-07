@@ -24,6 +24,7 @@ namespace Pokemon.Controllers
                 {
                     pokemon.Add(item);
                 }
+                //Se serializa solo al usar SetObject?
                 HttpContext.Session.SetObject("SESSION", pokemon);
             }
             else

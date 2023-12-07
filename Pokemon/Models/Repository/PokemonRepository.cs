@@ -17,7 +17,7 @@ namespace Pokemon.Models.Repository
 
         public async Task<IEnumerable<Pokemon>> GetPokemons()
         {
-            var query = "WITH RankedPokemon AS (SELECT p.*, tipo = STUFF((SELECT ', ' + tipo.nombre FROM tipo JOIN pokemon_tipo pt ON pt.id_tipo = tipo.id_tipo WHERE pt.numero_pokedex = p.numero_pokedex FOR XML PATH ('')), 1, 1, ''), evolucionado.nombre AS pokemon_evolucionado, origen.nombre AS pokemon_origen, ROW_NUMBER() OVER (PARTITION BY p.numero_pokedex ORDER BY (SELECT NULL)) AS RowNum FROM pokemon p FULL JOIN evoluciona_de e ON e.pokemon_origen = p.numero_pokedex LEFT JOIN pokemon evolucionado ON evolucionado.numero_pokedex = e.pokemon_evolucionado LEFT JOIN pokemon origen ON origen.numero_pokedex = e.pokemon_origen) SELECT * FROM RankedPokemon WHERE RowNum = 1;\r\n";
+            var query = "WITH RankedPokemon AS (SELECT p.*, tipo = STUFF((SELECT ', ' + tipo.nombre FROM tipo JOIN pokemon_tipo pt ON pt.id_tipo = tipo.id_tipo WHERE pt.numero_pokedex = p.numero_pokedex FOR XML PATH ('')), 1, 1, ''), evolucionado.nombre AS pokemon_evolucionado, origen.nombre AS pokemon_origen, ROW_NUMBER() OVER (PARTITION BY p.numero_pokedex ORDER BY (SELECT NULL)) AS RowNum FROM pokemon p FULL JOIN evoluciona_de e ON e.pokemon_origen = p.numero_pokedex LEFT JOIN pokemon evolucionado ON evolucionado.numero_pokedex = e.pokemon_evolucionado LEFT JOIN pokemon origen ON origen.numero_pokedex = e.pokemon_origen) SELECT * FROM RankedPokemon WHERE RowNum = 1;";
             using (var connection = _conexion.ObtenerConexion())
             {
                 var pokemons = await connection.QueryAsync<Pokemon>(query);

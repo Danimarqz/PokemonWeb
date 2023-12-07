@@ -1,0 +1,66 @@
+﻿@model List<PokeMovimiento>;
+@{
+    ViewData["Title"] = "Index";
+    int contador = 0;
+}
+
+<h1>Mi equipo</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Número pokedex
+            </th>
+            <th>
+                Nombre
+            </th>
+            <th>
+                Peso
+            </th>
+            <th>
+                Altura
+            </th>
+            <th>
+                Tipo
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            string tipo = "";
+            
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.pokemons.numero_pokedex)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.pokemons.nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.pokemons.peso)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.pokemons.altura)
+                </td>
+                <td>
+                    @foreach (var j in item.tipos)
+                    {
+                        
+                        tipo = tipo + " " + j.nombre;
+
+                    }
+                    @tipo
+                </td>
+                <td>
+                    @Html.ActionLink("Detalles", "GetDetail", "Pokemon", new { codigo = item.pokemons.numero_pokedex })
+                </td>
+                <td>
+                    @Html.ActionLink("Borrar de mi equipo", "DeletePokemon", new { posicion = contador })
+                </td>
+            </tr>
+            contador++;
+        }
+    </tbody>
+</table>

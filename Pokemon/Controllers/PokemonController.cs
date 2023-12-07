@@ -2,6 +2,7 @@
 using Pokemon.Models;
 using Microsoft.AspNetCore.Mvc;
 using Pokemon.Extensions;
+using System.Text.Json;
 
 namespace Pokemon.Controllers
 {
@@ -55,7 +56,7 @@ namespace Pokemon.Controllers
             var filteredPokemon = await _pokemonRepository.GetFilterByTipo(tipoFiltro);
             return View("Index", filteredPokemon);
         }
-    [HttpGet]
+        [HttpGet]
         public async Task<IActionResult> GetDetail(int codigo)
         {
             var pokemon = await _pokemonRepository.GetPokemonById(codigo);
@@ -83,19 +84,32 @@ namespace Pokemon.Controllers
         }
         public async Task<IActionResult> SavePokemon(int numPokedex)
         {
-            var Data = await Index();
-            List<Models.Pokemon> equipo; 
-            equipo = HttpContext.Session.GetObject<List<Models.Pokemon>>("MiEquipo") ?? new List<Models.Pokemon>();
+            var Data = await _pokemonRepository.GetPokemons();
+            List<Models.PokeMovimiento> equipo;
+            string arrayBytes = HttpContext.Session.GetString("MiEquipo");
+            if (arrayBytes == null)
+            {
+                equipo = new List<Models.PokeMovimiento>();
+            } else
+            {
+                equipo = JsonSerializer.Deserialize<List<Models.PokeMovimiento>>(arrayBytes);
+            }
             if (equipo.Count <6)
             {
                 var pokemon = await _pokemonRepository.GetPokemonById(numPokedex);
-                equipo.Add(pokemon);
-                HttpContext.Session.SetObject("MiEquipo", equipo);
+                var tipos = await _tipoRepository.GetTipos(numPokedex);
+                PokeMovimiento suma = new PokeMovimiento();
+                suma.pokemons = pokemon;
+                suma.tipos = tipos;
+                equipo.Add(suma);
+                string jsonString = JsonSerializer.Serialize(equipo);
+                HttpContext.Session.SetString("MiEquipo", jsonString);
+                return View("Index", Data);
             } else
             {
               ViewBag.ErrorMessage ="Demasiados Pokémon añadidos al equipo";
+              return View("Index", Data);
             }
-            return View("Index", Data);
         }
     
     }
