@@ -10,11 +10,13 @@ namespace Pokemon.Controllers
         private readonly IPokemonRepository _pokemonRepository;
         private readonly IMovimientoRepository _movimientoRepository;
         private readonly ITipoRepository _tipoRepository;
-        public PokemonController(IPokemonRepository pokemonRepository, IMovimientoRepository movimientoRepository, ITipoRepository tipoRepository)
+        private readonly IEvolucionRepository _evolucionRepository;
+        public PokemonController(IPokemonRepository pokemonRepository, IMovimientoRepository movimientoRepository, ITipoRepository tipoRepository, IEvolucionRepository evolucionRepository)
         {
             _pokemonRepository = pokemonRepository;
             _movimientoRepository = movimientoRepository;
             _tipoRepository = tipoRepository;
+            _evolucionRepository = evolucionRepository;
         }
         public async Task<IActionResult> Index()
         {
@@ -59,10 +61,23 @@ namespace Pokemon.Controllers
             var pokemon = await _pokemonRepository.GetPokemonById(codigo);
             var movimientos = await _movimientoRepository.GetMovimientos(codigo);
             var tipos = await _tipoRepository.GetTipos(codigo);
+            var evolucion = await _evolucionRepository.GetEvolucion(codigo);
+            var origen = await _evolucionRepository.GetOrigen(codigo);
             PokeMovimiento suma = new PokeMovimiento();
             suma.pokemons = pokemon;
             suma.movimientos = movimientos;
             suma.tipos = tipos;
+            if (evolucion != null)
+            {
+                var nameEvolucion = await _pokemonRepository.GetPokemonNameById(evolucion.pokemon_evolucionado);
+                suma.pokemon_evolucionado = nameEvolucion;
+            }
+            if (origen != null)
+            {
+                var nameOrigen = await _pokemonRepository.GetPokemonNameById(origen.pokemon_origen);
+                suma.pokemon_origen = nameOrigen;
+            }
+            
 
             return View("VerPokemon", suma);
         }

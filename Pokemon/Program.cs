@@ -9,6 +9,7 @@ builder.Services.AddSingleton(new Conexion(builder.Configuration.GetConnectionSt
 builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
 builder.Services.AddScoped<IMovimientoRepository, MovimientoRepository>();
 builder.Services.AddScoped<ITipoRepository, TipoRepository>();
+builder.Services.AddScoped<IEvolucionRepository, EvolucionRepository>();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {

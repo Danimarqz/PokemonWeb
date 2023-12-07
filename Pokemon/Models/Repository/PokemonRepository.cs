@@ -26,17 +26,16 @@ namespace Pokemon.Models.Repository
         }
         public async Task<Pokemon> GetPokemonById(int? id)
         {
-            var query = $"SELECT TOP 1 p.*, tipo = STUFF((" +
-                $"SELECT ', ' + tipo.nombre FROM tipo JOIN pokemon_tipo pt ON pt.id_tipo = tipo.id_tipo " +
-                $"WHERE pt.numero_pokedex = p.numero_pokedex FOR XML PATH ('')), 1, 1, '')" +
-                $", pokemon_evolucionado = STUFF((SELECT ', ' + evolucionado.nombre FROM pokemon p " +
-                $"FULL JOIN evoluciona_de e ON e.pokemon_origen = p.numero_pokedex " +
-                $"LEFT JOIN pokemon evolucionado ON evolucionado.numero_pokedex = e.pokemon_evolucionado " +
-                $"LEFT JOIN pokemon origen ON origen.numero_pokedex = e.pokemon_origen Where p.numero_pokedex = {id} " +
-                $"FOR XML PATH ('')), 1, 1, ''), origen.nombre AS pokemon_origen FROM pokemon p " +
-                $"FULL JOIN evoluciona_de e ON e.pokemon_origen = p.numero_pokedex " +
-                $"LEFT JOIN pokemon evolucionado ON evolucionado.numero_pokedex = e.pokemon_evolucionado " +
-                $"LEFT JOIN pokemon origen ON origen.numero_pokedex = e.pokemon_origen Where p.numero_pokedex = {id}";
+            var query = $"SELECT * FROM pokemon p WHERE p.numero_pokedex = {id}";
+            using (var connection = _conexion.ObtenerConexion())
+            {
+                var pokemon = await connection.QuerySingleOrDefaultAsync<Pokemon>(query, new { id });
+                return pokemon;
+            }
+        }
+        public async Task<Pokemon> GetPokemonNameById(int? id)
+        {
+            var query = $"SELECT p.nombre FROM pokemon p WHERE p.numero_pokedex = {id}";
             using (var connection = _conexion.ObtenerConexion())
             {
                 var pokemon = await connection.QuerySingleOrDefaultAsync<Pokemon>(query, new { id });
