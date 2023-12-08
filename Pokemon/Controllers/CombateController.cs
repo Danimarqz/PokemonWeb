@@ -76,7 +76,7 @@ namespace Pokemon.Controllers
                 for (int j = 0; j < equipocombate2.Count() && i < equipocombate.Count(); )
                 {
                     string winner = CheckWinner(listaEquipo1[i], listaEquipo2[j]);
-                    //Console.WriteLine($"{listaEquipo1[i].nombre} vs {listaEquipo2[j].nombre}: Winner - {winner}");
+                    Console.WriteLine($"{listaEquipo1[i].nombre} vs {listaEquipo2[j].nombre}: Winner - {winner}");
 
                     if (winner == "pokemon1")
                     {
@@ -115,7 +115,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Agua":
                     {
@@ -123,7 +123,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Bicho":
                     {
@@ -131,7 +131,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Dragón":
                     {
@@ -139,7 +139,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Eléctrico":
                     {
@@ -147,7 +147,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Fantasma":
                     {
@@ -155,7 +155,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Fuego":
                     {
@@ -163,7 +163,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Hada":
                     {
@@ -171,7 +171,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Hielo":
                     {
@@ -179,7 +179,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Lucha":
                     {
@@ -187,7 +187,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Normal":
                     {
@@ -195,7 +195,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Planta":
                     {
@@ -203,7 +203,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Psíquico":
                     {
@@ -211,7 +211,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Roca":
                     {
@@ -219,7 +219,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Siniestro":
                     {
@@ -227,7 +227,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Tierra":
                     {
@@ -235,7 +235,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Veneno":
                     {
@@ -243,7 +243,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Volador":
                     {
@@ -251,10 +251,161 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
-                default: return "Error";
             }
+            switch (tipo2)
+            {
+                case "Acero":
+                    {
+                        if (tipo1 == "Lucha" || tipo1 == "Tierra")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Agua":
+                    {
+                        if (tipo1 == "Planta" || tipo1 == "Eléctrico")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Bicho":
+                    {
+                        if (tipo1 == "Volador" || tipo1 == "Fuego" || tipo1 == "Roca")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Dragón":
+                    {
+                        if (tipo1 == "Hada" || tipo1 == "Hielo" || tipo1 == "Dragón")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Eléctrico":
+                    {
+                        if (tipo1 == "Tierra")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Fantasma":
+                    {
+                        if (tipo1 == "Fantasma" || tipo1 == "Siniestro")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Fuego":
+                    {
+                        if (tipo1 == "Tierra" || tipo1 == "Agua" || tipo1 == "Roca")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Hada":
+                    {
+                        if (tipo1 == "Acero" || tipo1 == "Veneno")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Hielo":
+                    {
+                        if (tipo1 == "Lucha" || tipo1 == "Acero" || tipo1 == "Roca" || tipo1 == "Fuego")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Lucha":
+                    {
+                        if (tipo1 == "Psíquico" || tipo1 == "Volador" || tipo1 == "Hielo")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Normal":
+                    {
+                        if (tipo1 == "Lucha")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Planta":
+                    {
+                        if (tipo1 == "Volador" || tipo1 == "Bicho" || tipo1 == "Veneno" || tipo1 == "Hielo" || tipo1 == "Fuego")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Psíquico":
+                    {
+                        if (tipo1 == "Bicho" || tipo1 == "Fantasma" || tipo1 == "Siniestro")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Roca":
+                    {
+                        if (tipo1 == "Lucha" || tipo1 == "Tierra" || tipo1 == "Acero" || tipo1 == "Agua" || tipo1 == "Planta")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Siniestro":
+                    {
+                        if (tipo1 == "Lucha" || tipo1 == "Hada" || tipo1 == "Bicho")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Tierra":
+                    {
+                        if (tipo1 == "Agua" || tipo1 == "Planta" || tipo1 == "Hielo")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Veneno":
+                    {
+                        if (tipo1 == "Tierra" || tipo1 == "Psíquico")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Volador":
+                    {
+                        if (tipo1 == "Roca" || tipo1 == "Hielo" || tipo1 == "Eléctrico")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+            }
+            return pokemon.peso != pokemon2.pokemons.peso ?
+                        (pokemon.peso > pokemon2.pokemons.peso ? "pokemon1" : "pokemon2")
+                            : (pokemon.altura != pokemon2.pokemons.altura ?
+                                (pokemon.altura > pokemon2.pokemons.altura ? "pokemon1" : "pokemon2")
+                                    : "empate");
         }
         private static string CheckWinner(Pokemon.Models.Pokemon pokemon, Pokemon.Models.Pokemon pokemon2)
         {
@@ -268,7 +419,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Agua":
                     {
@@ -276,7 +427,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Bicho":
                     {
@@ -284,7 +435,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Dragón":
                     {
@@ -292,7 +443,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Eléctrico":
                     {
@@ -300,7 +451,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Fantasma":
                     {
@@ -308,7 +459,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Fuego":
                     {
@@ -316,7 +467,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Hada":
                     {
@@ -324,7 +475,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Hielo":
                     {
@@ -332,7 +483,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Lucha":
                     {
@@ -340,7 +491,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Normal":
                     {
@@ -348,7 +499,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Planta":
                     {
@@ -356,7 +507,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Psíquico":
                     {
@@ -364,7 +515,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Roca":
                     {
@@ -372,7 +523,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Siniestro":
                     {
@@ -380,7 +531,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Tierra":
                     {
@@ -388,7 +539,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Veneno":
                     {
@@ -396,7 +547,7 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
                 case "Volador":
                     {
@@ -404,17 +555,161 @@ namespace Pokemon.Controllers
                         {
                             return "pokemon1";
                         }
-                        else { return "pokemon2"; }
+                        break;
                     }
-                default:
-                    {
-                        return pokemon.peso != pokemon2.peso ? 
-                            (pokemon.peso > pokemon2.peso ? "pokemon1" : "pokemon2") 
-                                : (pokemon.altura != pokemon2.altura ? 
-                                    (pokemon.altura > pokemon2.altura ? "pokemon1" : "pokemon2") 
-                                        : "empate");
-                    };
             }
+            switch (tipo2)
+            {
+                case "Acero":
+                    {
+                        if (tipo1 == "Lucha" || tipo1 == "Tierra")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Agua":
+                    {
+                        if (tipo1 == "Planta" || tipo1 == "Eléctrico")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Bicho":
+                    {
+                        if (tipo1 == "Volador" || tipo1 == "Fuego" || tipo1 == "Roca")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Dragón":
+                    {
+                        if (tipo1 == "Hada" || tipo1 == "Hielo" || tipo1 == "Dragón")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Eléctrico":
+                    {
+                        if (tipo1 == "Tierra")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Fantasma":
+                    {
+                        if (tipo1 == "Fantasma" || tipo1 == "Siniestro")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Fuego":
+                    {
+                        if (tipo1 == "Tierra" || tipo1 == "Agua" || tipo1 == "Roca")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Hada":
+                    {
+                        if (tipo1 == "Acero" || tipo1 == "Veneno")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Hielo":
+                    {
+                        if (tipo1 == "Lucha" || tipo1 == "Acero" || tipo1 == "Roca" || tipo1 == "Fuego")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Lucha":
+                    {
+                        if (tipo1 == "Psíquico" || tipo1 == "Volador" || tipo1 == "Hielo")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Normal":
+                    {
+                        if (tipo1 == "Lucha")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Planta":
+                    {
+                        if (tipo1 == "Volador" || tipo1 == "Bicho" || tipo1 == "Veneno" || tipo1 == "Hielo" || tipo1 == "Fuego")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Psíquico":
+                    {
+                        if (tipo1 == "Bicho" || tipo1 == "Fantasma" || tipo1 == "Siniestro")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Roca":
+                    {
+                        if (tipo1 == "Lucha" || tipo1 == "Tierra" || tipo1 == "Acero" || tipo1 == "Agua" || tipo1 == "Planta")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Siniestro":
+                    {
+                        if (tipo1 == "Lucha" || tipo1 == "Hada" || tipo1 == "Bicho")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Tierra":
+                    {
+                        if (tipo1 == "Agua" || tipo1 == "Planta" || tipo1 == "Hielo")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Veneno":
+                    {
+                        if (tipo1 == "Tierra" || tipo1 == "Psíquico")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+                case "Volador":
+                    {
+                        if (tipo1 == "Roca" || tipo1 == "Hielo" || tipo1 == "Eléctrico")
+                        {
+                            return "pokemon2";
+                        }
+                        break;
+                    }
+            }
+                return pokemon.peso != pokemon2.peso ?
+                            (pokemon.peso > pokemon2.peso ? "pokemon1" : "pokemon2")
+                                : (pokemon.altura != pokemon2.altura ?
+                                    (pokemon.altura > pokemon2.altura ? "pokemon1" : "pokemon2")
+                                        : "empate");
         }
     }
 }
