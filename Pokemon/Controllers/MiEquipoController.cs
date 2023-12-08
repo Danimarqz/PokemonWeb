@@ -16,8 +16,12 @@ namespace Pokemon.Controllers
         {
             List<Models.PokeMovimiento> equipo;
             string arrayBytes = HttpContext.Session.GetString("MiEquipo");
+            if (arrayBytes == null)
+            {
+                return View("Error");
+            }
             equipo = JsonSerializer.Deserialize<List<Models.PokeMovimiento>>(arrayBytes);
-            if (arrayBytes == null || equipo.Count < 1)
+            if (equipo.Count < 1)
             {
                 return View("Error");
             } else
