@@ -20,6 +20,10 @@ namespace Pokemon.Controllers
         {
             List<Models.PokeMovimiento> equipo;
             string arrayBytes = HttpContext.Session.GetString("MiEquipo");
+            if (arrayBytes == null)
+            {
+                return View("../MiEquipo/Error");
+            }
             equipo = JsonSerializer.Deserialize<List<Models.PokeMovimiento>>(arrayBytes);
             var equipocombate = await _pokemonRepository.GetRandom(6);
             List<Pokemon.Models.Pokemon> listaEquipo1 = equipocombate.ToList();
