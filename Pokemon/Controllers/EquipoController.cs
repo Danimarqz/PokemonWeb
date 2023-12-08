@@ -89,6 +89,15 @@ namespace Pokemon.Controllers
             ViewBag.AlturaMedia = alturaMedioCalc(filteredPokemons);
             return View("Index", filteredPokemons);
         }
+        public async Task<IActionResult> RefreshPokemons()
+        {
+            if (HttpContext.Session.GetString("SESSION") != null)
+            {
+                HttpContext.Session.Remove("SESSION");
+            }
+            var newPokemons = await GetPokemonAsync();
+            return View("Index",newPokemons);
+        }
         static string ObtenerValorMasFrecuente(List<string> lista)
         {
 
