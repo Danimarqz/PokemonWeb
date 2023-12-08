@@ -406,7 +406,14 @@ namespace Pokemon.Controllers
                         }
                         else { return "pokemon2"; }
                     }
-                default: return "Error";
+                default:
+                    {
+                        return pokemon.peso != pokemon2.peso ? 
+                            (pokemon.peso > pokemon2.peso ? "pokemon1" : "pokemon2") 
+                                : (pokemon.altura != pokemon2.altura ? 
+                                    (pokemon.altura > pokemon2.altura ? "pokemon1" : "pokemon2") 
+                                        : "empate");
+                    };
             }
         }
     }
