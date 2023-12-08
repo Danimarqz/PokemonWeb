@@ -104,6 +104,7 @@ namespace Pokemon.Controllers
                 equipo.Add(suma);
                 string jsonString = JsonSerializer.Serialize(equipo);
                 HttpContext.Session.SetString("MiEquipo", jsonString);
+                //Si es llamado desde el equipo aleatorio, debería volver a la página de equipo aleatorio?
                 return View("Index", Data);
             } else
             {

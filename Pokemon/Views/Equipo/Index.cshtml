@@ -56,7 +56,7 @@
                     @Html.ActionLink("Detalles", "GetDetail", "Pokemon", new { codigo = item.numero_pokedex })
                             </td>
                             <td>
-                                Añadir a mi equipo
+                    @Html.ActionLink("Añadir a mi equipo", "SavePokemon", "Pokemon", new { numPokedex = item.numero_pokedex })
                             </td>
                         </tr>
         }
